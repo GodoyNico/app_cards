@@ -9,7 +9,7 @@ class UserService {
   UserService({AppState appState})
       : _dio = NetworkHelper.getDioInstance(appState: appState);
 
-  Future<List<Cards>> takeAll({int id}) async {
+  Future<List<Cards>> cards({int id}) async {
     var response = await _dio.get('/cards',
         queryParameters: id != null ? {'id': id} : null);
     var receive = List<Cards>();
@@ -19,12 +19,12 @@ class UserService {
         receive.add(Cards.fromMap(element));
       });
     } else {
-      print('Algo deu errado.');
+      print('Erro');
     }
     return receive;
   }
 
-  Future<Cards> takeId(int id) async {
+  Future<Cards> porId(int id) async {
     var response = await _dio.get('/cards/$id');
     Cards receive;
     try {
@@ -63,7 +63,6 @@ class UserService {
 
   Future<Cards> update(Cards card) async {
     var dataCard = jsonEncode(card.toMap());
-    print('card editado${card.toMap()}');
     var response = await _dio.put('/cards/${card.id}', data: dataCard);
     Cards receive;
     try {
@@ -78,6 +77,7 @@ class UserService {
     return receive;
   }
 
+  //TODO: Implementar
   Future<void> delete(int id) async {
     var response = await _dio.delete('/cards/$id');
     if (response.statusCode >= 300 && response.statusCode < 200) {

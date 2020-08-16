@@ -14,7 +14,7 @@ abstract class _CardControllerBase with Store {
 
   @action
   void takeAllCards() {
-    _cardService.takeAll().then((value) {
+    _cardService.cards().then((value) {
       cards = value.asObservable();
     });
   }
